@@ -21,6 +21,7 @@
 1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
 
 ---
+![Screenshot 2023-05-08 161919](https://user-images.githubusercontent.com/54942567/236845398-7513fd20-36c3-40da-b705-02661839823e.jpg)
 
 ### Задание 1
 
