@@ -41,6 +41,7 @@
 13.Сделайте git push origin master.
 
 ---
+https://github.com/Darxmax/git_homework_8-03-hw/commit/23466c0f9104b726205c672a65a1d3199c0ebe7d
 
 ### Задание 2
 
@@ -57,6 +58,8 @@
 
 ---
 
+https://github.com/Darxmax/git_homework_8-03-hw/commit/fdaa140034258cc47028433d2c27bed8b4b719c5
+
 ### Задание 3
 
 1. Создайте новую ветку dev и переключитесь на неё.
@@ -66,6 +69,10 @@
 5. Сделайте коммит и пуш.
 
 В качестве ответа прикрепите ссылку на граф коммитов https://github.com/ваш-логин/ваш-репозиторий/network в ваш md-файл с решением.
+---
+
+https://github.com/Darxmax/git_homework_8-03-hw/network
+
 ### Задание 4
 
 `Приведите ответ в свободной форме........`
