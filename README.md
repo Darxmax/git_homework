@@ -22,27 +22,10 @@
 
 ---
 
-### Задание 2
+### Задание 2-3
 
+![Снимок экрана 2023-05-14 в 21 02 51](https://github.com/Darxmax/git_homework/assets/54942567/a884507c-959b-4534-bd94-52d7110e9da8)
 
-![Снимок экрана 2023-05-14 в 16 46 37](https://github.com/Darxmax/git_homework/assets/54942567/9d5721e5-5f41-4ff8-8d08-b79dd8efc995)
-![Снимок экрана 2023-05-14 в 16 41 48](https://github.com/Darxmax/git_homework/assets/54942567/a88b48dd-8551-49d5-9646-56fa62045733)
-![Снимок экрана 2023-05-14 в 16 40 40](https://github.com/Darxmax/git_homework/assets/54942567/3cffd46d-f521-47ce-b75b-1c2b19ffb4e8)
-
-
-wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/
-
-zabbix-release_6.0-4%2Bdebian11_all.deb 
-
-dpkg -i zabbix-release_6.0-4+debian11_all.deb 
-
-apt update
-
-sudo apt install zabbix-agent -y
-
-sudo systemctl restart zabbix-agent 
-
-sudo systemctl enable zabbix-agen
 
 ---
 
