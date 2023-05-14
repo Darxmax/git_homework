@@ -22,31 +22,28 @@
 
 ---
 
-### Задание 1
+### Задание 2
 
-![image](https://github.com/Darxmax/git_homework/assets/54942567/e5944e0e-0635-4aaf-b759-5c6dfad8292c)
 
-apt install posrgresql
+![Снимок экрана 2023-05-14 в 16 46 37](https://github.com/Darxmax/git_homework/assets/54942567/9d5721e5-5f41-4ff8-8d08-b79dd8efc995)
+![Снимок экрана 2023-05-14 в 16 41 48](https://github.com/Darxmax/git_homework/assets/54942567/a88b48dd-8551-49d5-9646-56fa62045733)
+![Снимок экрана 2023-05-14 в 16 40 40](https://github.com/Darxmax/git_homework/assets/54942567/3cffd46d-f521-47ce-b75b-1c2b19ffb4e8)
 
-wget https://repo.zabbix.com/zabbix/6.4/debian/pool/main/z/zabbix-release/zabbix-release_6.4-1+debian11_all.deb
 
-dpkg -i zabbix-release_6.4-1+debian11_all.deb
+wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/
+
+zabbix-release_6.0-4%2Bdebian11_all.deb 
+
+dpkg -i zabbix-release_6.0-4+debian11_all.deb 
 
 apt update
 
-apt install zabbix-server-pgsql zabbix-frontend-php php7.4-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-agent
+sudo apt install zabbix-agent -y
 
-sudo -u postgres createuser --pwprompt zabbix
+sudo systemctl restart zabbix-agent 
 
-sudo -u postgres createdb -O zabbix zabbix
+sudo systemctl enable zabbix-agen
 
-zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
-
-sed -i 's/# DBPassword=/DBPassword=123456789/g' /etc/zabbix/zabbix_server.conf
-
-systemctl restart zabbix-server zabbix-agent apache2
-
-systemctl enable zabbix-server zabbix-agent apache2
 ---
 
 
