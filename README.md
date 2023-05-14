@@ -22,9 +22,10 @@
 
 ---
 
-### Задание 2-3
+### Задание 4
 
-![Снимок экрана 2023-05-14 в 21 02 51](https://github.com/Darxmax/git_homework/assets/54942567/a884507c-959b-4534-bd94-52d7110e9da8)
+
+![Снимок экрана 2023-05-14 в 21 07 20](https://github.com/Darxmax/git_homework/assets/54942567/51a3b77b-5b04-44a7-bd71-2002f9070790)
 
 
 ---
