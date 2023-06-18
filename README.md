@@ -1,20 +1,19 @@
-# Домашнее задание к занятию 2 «Кластеризация и балансировка нагрузки»
+# Домашнее задание к занятию 3 «Резервное копирование»
 
 ### Цель задания
 В результате выполнения этого задания вы научитесь:
-1. Настраивать балансировку с помощью HAProxy
-2. Настраивать связку HAProxy + Nginx
+1. Настраивать регулярные задачи на резервное копирование (полная зеркальная копия)
+2. Настраивать инкрементное резервное копирование с помощью rsync
 
 ------
 
 ### Чеклист готовности к домашнему заданию
 
 1. Установлена операционная система Ubuntu на виртуальную машину и имеется доступ к терминалу
-2. Просмотрены конфигурационные файлы, рассматриваемые на лекции, которые находятся по [ссылке](2/)
+2. Сделан клон этой виртуальной машины с другим IP адресом
 
 
 ------
-
 
 ### Инструкция по выполнению домашнего задания
 
@@ -36,153 +35,31 @@
 
 
 ### Задание 1
-- Запустите два simple python сервера на своей виртуальной машине на разных портах
-- Установите и настройте HAProxy, воспользуйтесь материалами к лекции по [ссылке](2/)
-- Настройте балансировку Round-robin на 4 уровне.
-- На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy.
-![image](https://github.com/Darxmax/git_homework/assets/54942567/f9c54423-d299-4485-aea3-5b6d080f5aee)
-# haproxt.conf 
-      global
-        log /dev/log    local0
-        log /dev/log    local1 notice
-        chroot /var/lib/haproxy
-        stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-        stats timeout 30s
-        user haproxy
-        group haproxy
-        daemon
+- Составьте команду rsync, которая позволяет создавать зеркальную копию домашней директории пользователя в директорию `/tmp/backup`
+- Необходимо исключить из синхронизации все директории, начинающиеся с точки (скрытые)
+- Необходимо сделать так, чтобы rsync подсчитывал хэш-суммы для всех файлов, даже если их время модификации и размер идентичны в источнике и приемнике.
+- На проверку направить скриншот с командой и результатом ее выполнения
 
-        # Default SSL material locations
-        ca-base /etc/ssl/certs
-        crt-base /etc/ssl/private
+![backup1-2](https://github.com/Darxmax/git_homework/assets/54942567/3abce50a-638f-40ce-b3ca-058037475484)
+![backup1](https://github.com/Darxmax/git_homework/assets/54942567/62c46a9d-9dcd-498f-9486-1d0a05eb6b32)
 
-        # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
-        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
-        ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-        ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
-
-      defaults
-        log     global
-        mode    http
-        option  httplog
-        option  dontlognull
-        timeout connect 5000
-        timeout client  50000
-        timeout server  50000
-        errorfile 400 /etc/haproxy/errors/400.http
-        errorfile 403 /etc/haproxy/errors/403.http
-        errorfile 408 /etc/haproxy/errors/408.http
-        errorfile 500 /etc/haproxy/errors/500.http
-        errorfile 502 /etc/haproxy/errors/502.http
-        errorfile 503 /etc/haproxy/errors/503.http
-        errorfile 504 /etc/haproxy/errors/504.http
-
-      listen stats  # веб-страница со статистикой
-        bind                    :888
-        mode                    http
-        stats                   enable
-        stats uri               /stats
-        stats refresh           5s
-        stats realm             Haproxy\ Statistics
-
-      frontend example  # секция фронтенд
-        mode http
-        bind :8088
-        default_backend web_servers
-        acl ACL_example.com hdr(host) -i example.com
-        use_backend web_servers if ACL_example.com
-
-      backend web_servers    # секция бэкенд
-        mode http
-        balance roundrobin
-        option httpchk
-        http-check send meth GET uri /index.html
-        server s1 127.0.0.1:8888 check
-        server s2 127.0.0.1:9999 check
-
-
-      listen web_tcp
-
-        bind :1325
-
-        server s1 127.0.0.1:8888 check inter 3s
-        server s2 127.0.0.1:9999 check inter 3s
 
 ### Задание 2
-- Запустите три simple python сервера на своей виртуальной машине на разных портах
-- Настройте балансировку Weighted Round Robin на 7 уровне, чтобы первый сервер имел вес 2, второй - 3, а третий - 4
-- HAproxy должен балансировать только тот http-трафик, который адресован домену example.local
-- На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy c использованием домена example.local и без него.
-![image](https://github.com/Darxmax/git_homework/assets/54942567/6d864576-6a28-491b-a75d-afa8d8bdb7f8)
-# haproxy
-    global
-        log /dev/log    local0
-        log /dev/log    local1 notice
-        chroot /var/lib/haproxy
-        stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-        stats timeout 30s
-        user haproxy
-        group haproxy
-        daemon
-
-        # Default SSL material locations
-        ca-base /etc/ssl/certs
-        crt-base /etc/ssl/private
-
-        # See: https://ssl-config.mozilla.org/#server=haproxy&server-version=2.0.3&config=intermediate
-        ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
-        ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-        ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
-
-    defaults
-        log     global
-        mode    http
-        option  httplog
-        option  dontlognull
-        timeout connect 5000
-        timeout client  50000
-        timeout server  50000
-        errorfile 400 /etc/haproxy/errors/400.http
-        errorfile 403 /etc/haproxy/errors/403.http
-        errorfile 408 /etc/haproxy/errors/408.http
-        errorfile 500 /etc/haproxy/errors/500.http
-        errorfile 502 /etc/haproxy/errors/502.http
-        errorfile 503 /etc/haproxy/errors/503.http
-        errorfile 504 /etc/haproxy/errors/504.http
-
-      listen stats  # веб-страница со статистикой
-        bind                    :888
-        mode                    http
-        stats                   enable
-        stats uri               /stats
-        stats refresh           5s
-        stats realm             Haproxy\ Statistics
-
-      frontend example  # секция фронтенд
-        mode http
-        bind :8088
-        default_backend web_servers
-        acl ACL_example.local hdr(host) -i example.local
-        use_backend web_servers if ACL_example.local
-
-      backend web_servers    # секция бэкенд
-        mode http
-        balance weightedroundrobin
-        option httpchk
-        http-check send meth GET uri /index.html
-        server s1 127.0.0.1:8888 check
-        server s2 127.0.0.1:9999 check
-        server s3 127.0.0.1:7777 check
-
-
-      listen web_tcp
-
-        bind :1325
-
-        server s1 127.0.0.1:8888 check inter 3s
-        server s2 127.0.0.1:9999 check inter 3s
-        server s3 127.0.0.1:7777 check inter 3s
-
+- Написать скрипт и настроить задачу на регулярное резервное копирование домашней директории пользователя с помощью rsync и cron.
+- Резервная копия должна быть полностью зеркальной
+- Резервная копия должна создаваться раз в день, в системном логе должна появляться запись об успешном или неуспешном выполнении операции
+- Резервная копия размещается локально, в директории `/tmp/backup`
+- На проверку направить файл crontab и скриншот с результатом работы утилиты.
+# backup.sh 
+   #!/bin/bash
+   src_dir="/home/max/"
+   dst_dir="/tmp/backup/"
+   rsync -av --delete --exclude '.*' $src_dir $dst_dir
+   if [ $? -eq 0 ]; then
+     echo "Backup successful at $(date)" >> /var/log/backup.log
+   else
+     echo "Backup failed at $(date)" >> /var/log/backup.log
+   fi
 
 
 ---
@@ -193,20 +70,16 @@
 ---
 
 ### Задание 3*
-- Настройте связку HAProxy + Nginx как было показано на лекции.
-- Настройте Nginx так, чтобы файлы .jpg выдавались самим Nginx (предварительно разместите несколько тестовых картинок в директории /var/www/), а остальные запросы переадресовывались на HAProxy, который в свою очередь переадресовывал их на два Simple Python server.
-- На проверку направьте конфигурационные файлы nginx, HAProxy, скриншоты с запросами jpg картинок и других файлов на Simple Python Server, демонстрирующие корректную настройку.
+- Настройте ограничение на используемую пропускную способность rsync до 1 Мбит/c
+- Проверьте настройку, синхронизируя большой файл между двумя серверами
+- На проверку направьте команду и результат ее выполнения в виде скриншота
 
----
 
 ### Задание 4*
-- Запустите 4 simple python сервера на разных портах.
-- Первые два сервера будут выдавать страницу index.html вашего сайта example1.local (в файле index.html напишите example1.local)
-- Вторые два сервера будут выдавать страницу index.html вашего сайта example2.local (в файле index.html напишите example2.local)
-- Настройте два бэкенда HAProxy
-- Настройте фронтенд HAProxy так, чтобы в зависимости от запрашиваемого сайта example1.local или example2.local запросы перенаправлялись на разные бэкенды HAProxy
-- На проверку направьте конфигурационный файл HAProxy, скриншоты, демонстрирующие запросы к разным фронтендам и ответам от разных бэкендов.
-
+- Напишите скрипт, который будет производить инкрементное резервное копирование домашней директории пользователя с помощью rsync на другой сервер
+- Скрипт должен удалять старые резервные копии (сохранять только последние 5 штук)
+- Напишите скрипт управления резервными копиями, в нем можно выбрать резервную копию и данные восстановятся к состоянию на момент создания данной резервной копии.
+- На проверку направьте скрипт и скриншоты, демонстрирующие его работу в различных сценариях.
 
 ------
 
@@ -222,9 +95,6 @@
 
 - Зачет - выполнены все задания, ответы даны в развернутой форме, приложены требуемые скриншоты, конфигурационные файлы, скрипты. В выполненных заданиях нет противоречий и нарушения логики
 - На доработку - задание выполнено частично или не выполнено, в логике выполнения заданий есть противоречия, существенные недостатки, приложены не все требуемые материалы.
-
-
-
 
 
 
