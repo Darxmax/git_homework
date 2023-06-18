@@ -52,7 +52,7 @@
 - На проверку направить файл crontab и скриншот с результатом работы утилиты.
 
 ### backup.sh
-'''bash
+```bash
 #!/bin/bash
 src_dir="/home/max/"
 dst_dir="/tmp/backup/"
@@ -62,7 +62,7 @@ if [ $? -eq 0 ]; then
 else
    echo "Backup failed at $(date)" >> /var/log/backup.log
 fi
-'''
+```
 
 
 ---
