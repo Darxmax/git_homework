@@ -64,8 +64,9 @@ else
 fi
 ```
 ### Настройка cron
-crontab -e
+```crontab -e
 0 0 * * * /home/username/backup.sh
+```
 ### backup.log
 ![backup log](https://github.com/Darxmax/git_homework/assets/54942567/aeced588-d6b4-41d0-b2d4-4dbc56f47db7)
 
