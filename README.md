@@ -40,8 +40,8 @@
 - Необходимо сделать так, чтобы rsync подсчитывал хэш-суммы для всех файлов, даже если их время модификации и размер идентичны в источнике и приемнике.
 - На проверку направить скриншот с командой и результатом ее выполнения
 
-![backup1-2](https://github.com/Darxmax/git_homework/assets/54942567/3abce50a-638f-40ce-b3ca-058037475484)
 ![backup1](https://github.com/Darxmax/git_homework/assets/54942567/62c46a9d-9dcd-498f-9486-1d0a05eb6b32)
+![backup1-2](https://github.com/Darxmax/git_homework/assets/54942567/3abce50a-638f-40ce-b3ca-058037475484)
 
 
 ### Задание 2
