@@ -51,16 +51,15 @@
 - Резервная копия размещается локально, в директории `/tmp/backup`
 - На проверку направить файл crontab и скриншот с результатом работы утилиты.
 
-# backup.sh 
-   #!/bin/bash
-   src_dir="/home/max/"
-   dst_dir="/tmp/backup/"
-   rsync -av --delete --exclude '.*' $src_dir $dst_dir
-   if [ $? -eq 0 ]; then
-     echo "Backup successful at $(date)" >> /var/log/backup.log
-   else
-     echo "Backup failed at $(date)" >> /var/log/backup.log
-   fi
+#!/bin/bash
+src_dir="/home/max/"
+dst_dir="/tmp/backup/"
+rsync -av --delete --exclude '.*' $src_dir $dst_dir
+if [ $? -eq 0 ]; then
+  echo "Backup successful at $(date)" >> /var/log/backup.log
+else
+   echo "Backup failed at $(date)" >> /var/log/backup.log
+fi
 
 
 ---
