@@ -64,7 +64,8 @@ else
 fi
 ```
 ### Настройка cron
-```crontab -e
+```
+crontab -e
 0 0 * * * /home/username/backup.sh
 ```
 ### backup.log
