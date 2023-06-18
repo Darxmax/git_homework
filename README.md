@@ -51,7 +51,7 @@
 - Резервная копия размещается локально, в директории `/tmp/backup`
 - На проверку направить файл crontab и скриншот с результатом работы утилиты.
 
-#backup.sh 
+# backup.sh 
    #!/bin/bash
    src_dir="/home/max/"
    dst_dir="/tmp/backup/"
