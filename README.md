@@ -1,4 +1,4 @@
-# Домашнее задание к занятию «Работа с данными (DDL/DML)»
+![image](https://github.com/Darxmax/git_homework/assets/54942567/827c6a57-71c9-49df-9b17-6f005160c3e7)# Домашнее задание к занятию «Работа с данными (DDL/DML)»
 
 ### Инструкция по выполнению домашнего задания
 
@@ -59,6 +59,9 @@ ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass
 ```
 Название таблицы | Название первичного ключа
 customer         | customer_id
+                 |first_name
+                 |last_name
+                 |last_update
 payment          | payment_id
 rental           | rental_id
 store            | store_id
@@ -73,6 +76,14 @@ actor            | actor_id
 film_category    | film_id
 category         | category_id
 film_text        | film_id
+
+actor	actor_id
+	first_name
+	last_name
+	last_update
+	
+![image](https://github.com/Darxmax/git_homework/assets/54942567/7075ec1f-75de-4fc0-b824-4a460409679a)
+
 
 
 ## Дополнительные задания (со звёздочкой*)
