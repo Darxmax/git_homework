@@ -57,32 +57,107 @@ ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass
 ### Задание 2
 Составьте таблицу, используя любой текстовый редактор или Excel, в которой должно быть два столбца: в первом должны быть названия таблиц восстановленной базы, во втором названия первичных ключей этих таблиц. Пример: (скриншот/текст)
 ```
-Название таблицы | Название первичного ключа
-customer         | customer_id
-                 |first_name
-                 |last_name
-                 |last_update
-payment          | payment_id
-rental           | rental_id
-store            | store_id
-staff            | staff_id
-address          | address_id
-city             | city_id
-country          | country_id
-film             | film_id
-language         | language_id
-film_actor       | actor_id
-actor            | actor_id
-film_category    | film_id
-category         | category_id
-film_text        | film_id
+Название таблицы| Название первичного ключа
+customer        | customer_id
+		| first_name
+		| last_name
+		| last_update
 
-actor	actor_id
-	first_name
-	last_name
-	last_update
-	
-![image](https://github.com/Darxmax/git_homework/assets/54942567/7075ec1f-75de-4fc0-b824-4a460409679a)
+inventory	| inventory_id
+		| film_id
+		| store_id
+		| last_update
+
+payment         | payment_id
+		| customer_id
+		| staff_id
+		| rental_id
+		| amount
+		| payment_date
+		| last_update
+
+rental          | rental_id
+		| rental_date
+		| inventory_id
+		| customer_id
+		| return_date
+		| staff_id
+		| last_update
+
+store           | store_id
+		| manager_staff_id
+		| address_id
+		| last_update
+
+staff           | staff_id
+		| first_name
+		| last_name
+		|address_id
+		| picture
+		| email
+		| store_id
+		| active
+		| username
+		| password
+		| last_update
+
+address         | address_id
+		| address
+		| address2
+		| district
+		| city_id
+		| postal_code
+		| phone
+		| location
+		| last_update
+
+city            | city_id
+		| city
+		| country_id
+		| last_update
+
+country         | country_id
+		| country
+		| last_update
+
+film            | film_id
+		| title
+		| description
+		| release_year
+		| language_id
+		| original_language_id
+		| rental_duration
+		| rental_rate
+		| length
+		| replacement_cost
+		| rating
+		| special_features
+		| last_update
+
+language        | language_id
+		| name
+		| last_update
+
+film_actor      | actor_id\
+		| film_id
+		| last_update
+
+actor           | actor_id
+		| first_name
+		| last_name
+		| last_update
+
+film_category   | film_id
+		| category_id
+		| last_update
+
+category        | category_id
+		| name
+		| last_update
+ 
+film_text       | film_id
+		| title
+		| description
 
 
 
