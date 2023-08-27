@@ -54,6 +54,7 @@
 
 ---
 файл keepalived
+'''
 vrrp_script nginx_check {
     script "/usr/bin/check_nginx.sh"
     interval 3
@@ -73,7 +74,7 @@ vrrp_instance VI_1 {
             nginx_check
     }
 }
-
+'''
 bash-скрипт
 #!/bin/bash
 
