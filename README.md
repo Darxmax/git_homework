@@ -54,7 +54,7 @@
 
 ---
 файл keepalived
-'''
+```
 vrrp_script nginx_check {
     script "/usr/bin/check_nginx.sh"
     interval 3
@@ -73,20 +73,19 @@ vrrp_instance VI_1 {
             nginx_check
     }
 }
-'''
+```
 bash-скрипт
+```bash
 #!/bin/bash
-
 # Проверяем доступность порта nginx
 if ! curl http://localhost:80; then
   exit 1
 fi
-
 # Проверяем существование файла index.nginx-debian.html в директории /var/www/html
 if [ ! -f /var/www/html/index.nginx-debian.html ]; then
   exit 2
 fi
-
+```
 
 
 ------
