@@ -41,7 +41,8 @@
 - Необходимо аналогично настроить отслеживание состояния интерфейсов Gi0/0 (для первой группы).
 - Для проверки корректности настройки, разорвите один из кабелей между одним из маршрутизаторов и Switch0 и запустите ping между PC0 и Server0.
 - На проверку отправьте получившуюся схему в формате pkt и скриншот, где виден процесс настройки маршрутизатора.
-![image](https://github.com/Darxmax/git_homework/assets/54942567/f534cfd1-f9ee-4c8c-9304-37e0dc08312a)
+
+  
 ------
 
 
@@ -54,11 +55,13 @@
 
 ---
 файл keepalived
-```
+```bash
 vrrp_script nginx_check {
-    script "/usr/bin/check_nginx.sh"
+    script "/home/max/script/check_nginx.sh"
     interval 3
     user max
+    fall 2
+    rise 2
 }
 vrrp_instance VI_1 {
     state MASTER
@@ -66,6 +69,7 @@ vrrp_instance VI_1 {
     virtual_router_id 15
     priority 255
     advert_int 1
+
     virtual_ipaddress {
             192.168.0.15/24
     }
@@ -74,6 +78,32 @@ vrrp_instance VI_1 {
     }
 }
 ```
+```bash
+vrrp_script nginx_check {
+    script "/home/max/script/check_nginx.sh"
+    interval 3
+    user max
+    fall 2
+    rise 2
+}
+vrrp_instance VI_1 {
+        state BACKUP
+        interface enp0s3
+        virtual_router_id 15
+        priority 200
+        advert_int 1
+
+        virtual_ipaddress {
+              192.168.0.15/24
+        }
+
+        track_script {
+            nginx_check
+        }
+}
+
+```
+
 bash-скрипт
 ```bash
 #!/bin/bash
@@ -86,6 +116,7 @@ if [ ! -f /var/www/html/index.nginx-debian.html ]; then
   exit 2
 fi
 ```
+![image](https://github.com/Darxmax/git_homework/assets/54942567/22667d4a-a16b-4cf9-a4d8-d948efe5665d)
 
 
 ------
