@@ -1,4 +1,4 @@
-# Домашнее задание к занятию «ELK»
+# Домашнее задание к занятию «SQL. Часть 1»
 
 ### Инструкция по выполнению домашнего задания
 
@@ -17,76 +17,56 @@
 
 ---
 
-## Дополнительные ресурсы
+Задание можно выполнить как в любом IDE, так и в командной строке.
 
-При выполнении задания используйте дополнительные ресурсы:
-- [docker-compose elasticsearch + kibana](11-03/docker-compose.yaml);
-- [поднимаем elk в docker](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html);
-- [поднимаем elk в docker с filebeat и docker-логами](https://www.sarulabs.com/post/5/2019-08-12/sending-docker-logs-to-elasticsearch-and-kibana-with-filebeat.html);
-- [конфигурируем logstash](https://www.elastic.co/guide/en/logstash/7.17/configuration.html);
-- [плагины filter для logstash](https://www.elastic.co/guide/en/logstash/current/filter-plugins.html);
-- [конфигурируем filebeat](https://www.elastic.co/guide/en/beats/libbeat/5.3/config-file-format.html);
-- [привязываем индексы из elastic в kibana](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html);
-- [как просматривать логи в kibana](https://www.elastic.co/guide/en/kibana/current/discover.html);
-- [решение ошибки increase vm.max_map_count elasticsearch](https://stackoverflow.com/questions/42889241/how-to-increase-vm-max-map-count).
+### Задание 1
 
-### Задание 1. Elasticsearch 
+Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
+```
+SELECT DISTINCT district
+FROM address
+WHERE district LIKE 'K%a' AND district NOT LIKE '% %';
+```
 
-Установите и запустите Elasticsearch, после чего поменяйте параметр cluster_name на случайный. 
+### Задание 2
 
-*Приведите скриншот команды 'curl -X GET 'localhost:9200/_cluster/health?pretty', сделанной на сервере с установленным Elasticsearch. Где будет виден нестандартный cluster_name*.
+Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года **включительно** и стоимость которых превышает 10.00.
 
----
+```
+SELECT amount, payment_date
+FROM payment
+WHERE CAST(payment_date AS DATE) BETWEEN 20050614 AND 20050618 AND amount > 10.00;
 
-![image](https://github.com/Darxmax/git_homework/assets/54942567/b21c31da-e16b-45e9-8e27-9c463e0d94ab)
+```
 
----
+### Задание 3
 
-### Задание 2. Kibana
+Получите последние пять аренд фильмов.
+```
+SELECT *
+FROM rental
+ORDER BY rental_id DESC
+LIMIT 5;
+```
+### Задание 4
 
-Установите и запустите Kibana.
+Одним запросом получите активных покупателей, имена которых Kelly или Willie. 
 
-*Приведите скриншот интерфейса Kibana на странице http://<ip вашего сервера>:5601/app/dev_tools#/console, где будет выполнен запрос GET /_cluster/health?pretty*.
-
----
-
-![image](https://github.com/Darxmax/git_homework/assets/54942567/d1e423df-534c-4fc6-ae9e-9dd8cf72e75a)
-
----
-
-### Задание 3. Logstash
-
-Установите и запустите Logstash и Nginx. С помощью Logstash отправьте access-лог Nginx в Elasticsearch. 
-
-*Приведите скриншот интерфейса Kibana, на котором видны логи Nginx.*
-
----
-
-![image](https://github.com/Darxmax/git_homework/assets/54942567/a5f3223e-23e7-452c-a704-ab828b8852fe)
-
----
-
-### Задание 4. Filebeat. 
-
-Установите и запустите Filebeat. Переключите поставку логов Nginx с Logstash на Filebeat. 
-
-*Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
-
----
-
-
-![image](https://github.com/Darxmax/git_homework/assets/54942567/0fe66432-b685-49bb-ba8d-ab59dc73c369)
-
-
----
-
-
+Сформируйте вывод в результат таким образом:
+- все буквы в фамилии и имени из верхнего регистра переведите в нижний регистр,
+- замените буквы 'll' в именах на 'pp'.
+```
+SELECT LOWER(REPLACE(first_name, 'LL', 'PP')) AS Имя, LOWER(last_name) AS Фамилия
+FROM customer
+WHERE active = 1 AND (first_name LIKE 'Kelly' OR first_name LIKE 'Willie');
+```
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
 
-### Задание 5*. Доставка данных 
+### Задание 5*
 
-Настройте поставку лога в Elasticsearch через Logstash и Filebeat любого другого сервиса , но не Nginx. 
-Для этого лог должен писаться на файловую систему, Logstash должен корректно его распарсить и разложить на поля. 
+Выведите Email каждого покупателя, разделив значение Email на две отдельных колонки: в первой колонке должно быть значение, указанное до @, во второй — значение, указанное после @.
 
-*Приведите скриншот интерфейса Kibana, на котором будет виден этот лог и напишите лог какого приложения отправляется.*
+### Задание 6*
+
+Доработайте запрос из предыдущего задания, скорректируйте значения в новых колонках: первая буква должна быть заглавной, остальные — строчными.
