@@ -18,6 +18,7 @@
 ### Задание 1
 
 Напишите запрос к учебной базе данных, который вернёт процентное отношение общего размера всех индексов к общему размеру всех таблиц.
+Ответ:
 ```
 SELECT SUM(index_length) / SUM(data_length) * 100
 FROM INFORMATION_SCHEMA.TABLES;
@@ -33,6 +34,7 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 - перечислите узкие места;
 - оптимизируйте запрос: внесите корректировки по использованию операторов, при необходимости добавьте индексы.
 
+Ответ:
 ```
 EXPLAIN ANALYZE
 select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount) over (partition by c.customer_id, f.title)
