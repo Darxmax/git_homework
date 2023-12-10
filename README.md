@@ -39,14 +39,8 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 
 Ответ:
 
-```
-EXPLAIN ANALYZE
-select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount) over (partition by c.customer_id, f.title)
-from payment p, rental r, customer c, inventory i, film f
-where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and r.customer_id = c.customer_id and i.inventory_id = r.inventory_id
-```
 
-```
+```EXPLAIN ANALYZE
 -> Limit: 200 row(s)  (cost=0..0 rows=0) (actual time=8394..8394 rows=200 loops=1)
     -> Table scan on <temporary>  (cost=2.5..2.5 rows=0) (actual time=8394..8394 rows=200 loops=1)
         -> Temporary table with deduplication  (cost=0..0 rows=0) (actual time=8394..8394 rows=391 loops=1)
